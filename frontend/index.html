@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Film Studio</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>🎬 AI Film Studio</h1>
+      <p class="subtitle">Idea → script (Claude) → clips (Runway) → voiceover (ElevenLabs) → final film</p>
+    </header>
+
+    <section id="config-warning" class="warning hidden"></section>
+
+    <section class="form-card">
+      <label for="idea">Film idea / logline</label>
+      <textarea id="idea" rows="3" placeholder="e.g. A lighthouse keeper discovers the sea is slowly rising into the sky."></textarea>
+
+      <div class="row">
+        <div class="field">
+          <label for="num_scenes">Scenes</label>
+          <input type="number" id="num_scenes" min="1" max="10" value="4">
+        </div>
+        <div class="field">
+          <label for="scene_duration">Seconds / scene</label>
+          <select id="scene_duration">
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="aspect_ratio">Aspect ratio</label>
+          <select id="aspect_ratio">
+            <option value="1280:720" selected>16:9 (1280x720)</option>
+            <option value="720:1280">9:16 (720x1280)</option>
+            <option value="1920:1080">16:9 (1920x1080)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field grow">
+          <label for="style">Visual style (optional)</label>
+          <input type="text" id="style" placeholder="e.g. cinematic noir, anime, claymation">
+        </div>
+        <div class="field">
+          <label for="genre">Genre (optional)</label>
+          <select id="genre">
+            <option value="" selected>Any</option>
+            <option value="comedy">Comedy</option>
+            <option value="drama">Drama</option>
+            <option value="horror">Horror</option>
+            <option value="scifi">Sci-Fi</option>
+          </select>
+        </div>
+        <div class="field checkbox-field">
+          <label><input type="checkbox" id="include_narration" checked> Include narration</label>
+        </div>
+      </div>
+      <p id="rag-hint" class="hint hidden">
+        💡 Genre is used to find similar existing TV episodes and refine your idea into a
+        tighter logline before writing the script.
+      </p>
+
+      <button type="button" id="generate-btn">Generate Film</button>
+    </section>
+
+    <section id="status-card" class="status-card hidden">
+      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+      <p id="status-message"></p>
+    </section>
+
+    <section id="inspiration-card" class="inspiration-card hidden">
+      <h2>💡 Inspiration (RAG)</h2>
+      <p class="hint">Your idea was refined using similar existing TV episode loglines:</p>
+      <p id="refined-logline" class="refined-logline"></p>
+      <details id="similar-details">
+        <summary>Similar episodes used as inspiration</summary>
+        <div id="similar-list" class="similar-list"></div>
+      </details>
+    </section>
+
+    <section id="script-card" class="script-card hidden">
+      <h2 id="film-title">Film Script</h2>
+      <p id="film-logline" class="logline"></p>
+      <div id="scenes-list" class="scenes-list"></div>
+    </section>
+
+    <section id="final-card" class="final-card hidden">
+      <h2>Final Film</h2>
+      <video id="final-video" controls></video>
+      <a id="download-link" href="#" download>Download film</a>
+    </section>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
